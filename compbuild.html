@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Build a Computer</title>
+	</head>
+	<body>
+		<p>Select the parts you would like for your gaming rig</p>
+		
+		<form id="partsForm" name="partsForm">
+			<p>
+				<label for="processor">Processor Speed:</label>
+				<select name="processor" id="processor">
+					<option value="1.9 Ghz" selected="selected">1.9</option>
+					<option value="2.1 Ghz">2.1</option>
+					<option value="2.3 Ghz">2.3</option>
+					<option value="2.5 Ghz">2.5</option>
+					<option value="2.6 Ghz">2.6</option>
+				</select>
+			</p>
+			<p>
+				<label for="ram">Ram Type and Amount:</label>
+				<select name="ram" id="ram">
+					<option value="DDR2" selected="selected">DDR2</option>
+					<option value="DDR3">DDR3</option>
+					<option value="DDR4">DDR4</option>
+				</select>
+				
+				
+				<label for="twosticks">Two Sticks</label>
+				<input type="radio" id="twosticks" name="sticks" value="2 sticks" checked="checked">
+				
+				<label for="foursticks">Four Sticks</label>
+				<input type="radio" id="foursticks" name="sticks" value="4 sticks">
+				
+				<label for="eightsticks">Eight Sticks</label>
+				<input type="radio" id="eightsticks" name="sticks" value="8 sticks">
+			</p>
+			<p>Extras:</p>
+			<p>
+				<input type="checkbox" name="gpu" value="ubergpu" id="ubergpu">
+				<label for="ubergpu">Uber GPU</label>	
+			</p>
+			<p>
+				<input type="checkbox" name="sfx" value="ubersfx" id="ubersfx">
+				<label for="ubersfx">Uber SFX</label>	
+			</p>
+			<p>
+				<input type="checkbox" name="usb" value="usb" id="usb">
+				<label for="usb">Extra USB ports</label>	
+			</p>
+			<p>
+				<input type="button" name="order" value="Order Parts">
+			</p>
+		</form>
+		<output name="build" form="partsForm"></output>
+		
+		<script>
+			var form = document.partsForm;
+			
+			function orderClick() {
+				var lstProc = form.processor;
+				var lstRam = form.ram;
+				var radSticks = form.sticks;
+				
+				var lstItems = "<ul>";
+				lstItems += "<li>Processor Speed: "+lstProc[lstProc.selectedIndex].value+"</li>";
+				lstItems += "<li>Ram Type: "+lstRam[lstRam.selectedIndex].value;
+				
+				for (var i = 0; i < radSticks.length; i++)
+				{
+					if (radSticks[i].checked)
+					{
+						lstItems += " - " + radSticks[i].value + "</li>";
+						break;
+					}
+					lstItems += "</li>";
+				}
+				
+				lstItems += "<li>Plus these additional items:<ul>";
+				for (var i = 0; i < form.elements.length; i++)
+				{
+					if (form.elements[i].type == "checkbox")
+					{
+						if (form.elements[i].checked)
+						{
+							lstItems += "<li>"+form.elements[i].value+"</li>";
+						}
+					}
+				}
+				lstItems +="</ul>"
+				lstItems += "</ul>";
+				form.build.innerHTML = lstItems;
+			}
+			
+			form.order.addEventListener("click", orderClick);
+			orderClick();
+		</script>
+	</body>
+</html>
